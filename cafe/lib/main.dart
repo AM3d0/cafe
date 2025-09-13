@@ -1,4 +1,3 @@
-import 'package:cafe/backend/services/products_service.dart';
 import 'package:cafe/backend/services/shared_preferences_service.dart';
 import 'package:cafe/pages/customer_pages/products_page.dart';
 import 'package:cafe/pages/homepage.dart';
@@ -9,15 +8,13 @@ import 'package:flutter/material.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initializePrefs();
+  await SharedPreferencesService.instance.initPrefs();
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
 Future initializePrefs() async{
-  SharedPreferencesService sharedPreferencesService =
-      SharedPreferencesService();
-  await sharedPreferencesService.initPrefs();
+  
 }
 
 class MyApp extends StatelessWidget {

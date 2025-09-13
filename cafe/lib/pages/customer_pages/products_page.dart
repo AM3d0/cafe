@@ -1,9 +1,13 @@
 import 'package:cafe/backend/services/products_service.dart';
+import 'package:cafe/backend/services/shared_preferences_service.dart';
 import 'package:cafe/pages/customer_pages/product_visualization.dart';
+import 'package:cafe/utils/helper/products_page_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductsPage extends StatefulWidget {
-  const ProductsPage({super.key});
+  final ProductsPageHelper productsPageHelper = ProductsPageHelper();
+  ProductsPage({super.key});
 
   @override
   State<ProductsPage> createState() => _ProductsPageState();
@@ -11,34 +15,54 @@ class ProductsPage extends StatefulWidget {
 
 class _ProductsPageState extends State<ProductsPage> {
   ProductsService productsService = ProductsService();
-  List<Map<String, dynamic>> products = [];
-  List<Map<String, dynamic>> hotDrinks = [];
-  List<Map<String, dynamic>> coldDrinks = [];
-  List<Map<String, dynamic>> cakes = [];
-  List<String> categories = [];
+  ProductsPageHelper productsPageHelper = ProductsPageHelper();
+  // List<Map<String, dynamic>> products = [];
+  late List<Map<String, dynamic>> hotDrinks;
+  late List<Map<String, dynamic>> coldDrinks;
+  late List<Map<String, dynamic>> cakes;
+  // List<String> categories = [];
 
   @override
   void initState() {
     super.initState();
+    cakes = productsPageHelper.getCertainProductsPrefs("Cake");
+    coldDrinks = productsPageHelper.getCertainProductsPrefs("Cold Drinks");
+    hotDrinks = productsPageHelper.getCertainProductsPrefs("Hot Drinks");
     _loadProducts();
   }
 
   Future<void> _loadProducts() async {
     final loadedProducts = await productsService.getAllProducts();
-    final loadedHotDrinks = await productsService.getAllProductsOfCategory('Hot Drinks');
+    final loadedHotDrinks = await productsService.getAllProductsOfCategory(
+      'Hot Drinks',
+    );
     final loadedCakes = await productsService.getAllProductsOfCategory('Cake');
-    final loadedColdDrinks = await productsService.getAllProductsOfCategory('Cold Drinks');
+    final loadedColdDrinks = await productsService.getAllProductsOfCategory(
+      'Cold Drinks',
+    );
     final uniqueCategories = loadedProducts
         .map((p) => p["category"].toString())
         .toSet()
         .toList();
-    setState(() {
-      products = loadedProducts;
-      categories = uniqueCategories;
-      hotDrinks = loadedHotDrinks;
-      cakes = loadedCakes;
-      coldDrinks = loadedColdDrinks;
-    });
+
+    if (cakes != loadedCakes) {
+      productsPageHelper.setCertainProductsPrefs('Cake', loadedCakes);
+      setState(() {
+        cakes = loadedCakes;
+      });
+    }
+    if (hotDrinks != loadedHotDrinks) {
+      productsPageHelper.setCertainProductsPrefs('Hot Drinks', loadedHotDrinks);
+      setState(() {
+        hotDrinks = loadedHotDrinks;
+      });
+    }
+    if (coldDrinks != loadedColdDrinks) {
+      productsPageHelper.setCertainProductsPrefs('Cold Drinks', loadedColdDrinks);
+      setState(() {
+        coldDrinks = loadedColdDrinks;
+      });
+    }
   }
 
   @override
@@ -46,7 +70,7 @@ class _ProductsPageState extends State<ProductsPage> {
     return Scaffold(
       body: SafeArea(
         child: DefaultTabController(
-          length: products.length,
+          length: 3,
           child: Column(
             children: [
               TabBar(
