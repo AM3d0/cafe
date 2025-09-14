@@ -16,4 +16,10 @@ class SharedPreferencesService {
 
   // function to reset shared Preferences,
   // used, when a new customer wants to order
+  Future<void> resetPrefsOfGroceryNumber() async {
+    await prefsWithCache.remove('Total Products');
+  }
+  Future<void> resetPrefsOfTotalPrice() async {
+    await prefsWithCache.remove('Total Price');
+  }
 }

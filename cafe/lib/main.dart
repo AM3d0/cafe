@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferencesService.instance.initPrefs();
+  await SharedPreferencesService.instance.resetPrefsOfGroceryNumber();
+  await SharedPreferencesService.instance.resetPrefsOfTotalPrice();
   await Firebase.initializeApp();
   runApp(const MyApp());
 }

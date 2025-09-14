@@ -1,9 +1,7 @@
 import 'package:cafe/backend/services/products_service.dart';
-import 'package:cafe/backend/services/shared_preferences_service.dart';
 import 'package:cafe/pages/customer_pages/product_visualization.dart';
 import 'package:cafe/utils/helper/products_page_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductsPage extends StatefulWidget {
   final ProductsPageHelper productsPageHelper = ProductsPageHelper();
