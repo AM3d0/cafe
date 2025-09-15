@@ -1,5 +1,8 @@
+import 'package:cafe/pages/customer_pages/cart/cart_item.dart';
+import 'package:cafe/pages/customer_pages/cart/cart_item_list.dart';
 import 'package:cafe/utils/helper/products_page_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetail extends StatefulWidget {
   final String productsName;
@@ -20,6 +23,7 @@ class _ProductDetailState extends State<ProductDetail> {
   int currentAmount = 0;
   late int totalProducts;
   late double totalPrice;
+  late CartItem item;
 
   @override
   void initState() {
@@ -149,10 +153,10 @@ class _ProductDetailState extends State<ProductDetail> {
                             ],
                           ),
                           SizedBox(height: 5),
+                          // amount of costs
                           Text('Total €${totalPrice.toStringAsFixed(2)}'),
                         ],
                       ),
-                      // amount of costs
 
                       // add to Card button
                       ElevatedButton(
@@ -171,6 +175,16 @@ class _ProductDetailState extends State<ProductDetail> {
                                 currentAmount *
                                 double.parse(widget.productsPrice);
                             await productsPageHelper.setTotalPrice(price);
+                            item = CartItem(
+                              name: widget.productsName,
+                              priceSum: price.toString(),
+                              quantity: currentAmount.toString(),
+                              note: _controller.text
+                            );
+                            Provider.of<CartProvider>(
+                              context,
+                              listen: false,
+                            ).addItem(item);
                           }
                         },
                         child: Text('add'),

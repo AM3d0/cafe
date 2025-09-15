@@ -1,10 +1,13 @@
 import 'package:cafe/backend/services/shared_preferences_service.dart';
+import 'package:cafe/pages/customer_pages/cart/cart_item_list.dart';
+import 'package:cafe/pages/customer_pages/cart/cart_page.dart';
 import 'package:cafe/pages/customer_pages/products_page.dart';
 import 'package:cafe/pages/homepage.dart';
 import 'package:cafe/pages/kitchen_orders/orders_page.dart';
 import 'package:cafe/utils/theme/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,7 +15,12 @@ void main() async {
   await SharedPreferencesService.instance.resetPrefsOfGroceryNumber();
   await SharedPreferencesService.instance.resetPrefsOfTotalPrice();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => CartProvider(),
+      child: MyApp(),
+    ),
+  );
 }
 
 Future initializePrefs() async{
@@ -31,6 +39,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/kitchen': (context) => OrdersPage(),
         '/customer': (context) => ProductsPage(),
+        '/customerOrders' : (context) => CartPage() 
       },
     );
   }

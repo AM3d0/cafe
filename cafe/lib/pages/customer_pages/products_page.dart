@@ -56,7 +56,10 @@ class _ProductsPageState extends State<ProductsPage> {
       });
     }
     if (coldDrinks != loadedColdDrinks) {
-      productsPageHelper.setCertainProductsPrefs('Cold Drinks', loadedColdDrinks);
+      productsPageHelper.setCertainProductsPrefs(
+        'Cold Drinks',
+        loadedColdDrinks,
+      );
       setState(() {
         coldDrinks = loadedColdDrinks;
       });
@@ -67,28 +70,44 @@ class _ProductsPageState extends State<ProductsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: DefaultTabController(
-          length: 3,
-          child: Column(
-            children: [
-              TabBar(
-                tabs: [
-                  Tab(text: 'Cake'),
-                  Tab(text: 'Hot Drinks'),
-                  Tab(text: 'Cold Drinks'),
-                ],
-              ),
-              Expanded(
-                child: TabBarView(
+        child: Column(
+          children: [
+            Expanded(
+              child: DefaultTabController(
+                length: 3,
+                child: Column(
                   children: [
-                    Products(products: cakes),
-                    Products(products: hotDrinks),
-                    Products(products: coldDrinks),
+                    TabBar(
+                      tabs: [
+                        Tab(text: 'Cake'),
+                        Tab(text: 'Hot Drinks'),
+                        Tab(text: 'Cold Drinks'),
+                      ],
+                    ),
+                    Expanded(
+                      child: TabBarView(
+                        children: [
+                          Products(products: cakes),
+                          Products(products: hotDrinks),
+                          Products(products: coldDrinks),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+            Row(
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/customerOrders');
+                  },
+                  child: Text('zum Warenkorb'),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
