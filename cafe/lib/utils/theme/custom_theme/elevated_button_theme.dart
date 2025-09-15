@@ -10,8 +10,8 @@ class CElevatedButtonTheme {
       backgroundColor: CColors.primary,
       disabledForegroundColor: Colors.grey,
       disabledBackgroundColor: Colors.grey,
-      side: const BorderSide(color: Colors.green),
-      padding: EdgeInsets.symmetric(vertical: 10),
+      side: const BorderSide(color: Colors.white),
+      padding: EdgeInsets.all(10),
       textStyle: TextStyle(
         fontSize: 16,
         color: Colors.white,

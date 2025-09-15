@@ -77,7 +77,9 @@ class _CartPageState extends State<CartPage> {
           ),
           ElevatedButton(
             onPressed: () {
-              ordersService.sendOrder(cartItems);
+              if (cartItems.isNotEmpty) {
+                ordersService.sendOrder(cartItems);
+              }
             },
             child: Text('Bestellung aufgeben'),
           ),

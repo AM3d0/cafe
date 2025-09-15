@@ -1,4 +1,5 @@
 import 'package:cafe/pages/customer_pages/product_detail.dart';
+import 'package:cafe/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class Products extends StatefulWidget {
@@ -12,50 +13,63 @@ class Products extends StatefulWidget {
 class _ProductsState extends State<Products> {
   @override
   Widget build(BuildContext context) {
-    return CarouselView.weighted(
-      scrollDirection: Axis.horizontal,
-      flexWeights: [1, 1],
-      shrinkExtent: 300,
-      enableSplash: true, 
-      onTap: (index) {
-        final product = widget.products[index];
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => ProductDetail(
-              productsName: product['name'],
-              productsPrice: product['price'].toString(),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: CarouselView.weighted(
+        scrollDirection: Axis.horizontal,
+        backgroundColor: Color(0xFF2f4538),
+        flexWeights: [1, 1],
+        shrinkExtent: 300,
+        enableSplash: true,
+        onTap: (index) {
+          final product = widget.products[index];
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => ProductDetail(
+                productsName: product['name'],
+                productsPrice: product['price'].toString(),
+              ),
             ),
-          ),
-        );
-      },
-      children: widget.products.map((product) {
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Card(
-            elevation: 3,
+          );
+        },
+        children: widget.products.map((product) {
+          return Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadiusGeometry.circular(40),
+              side: BorderSide(color: Colors.white)
+            ),
+            
+            color: CColors.primary,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    product['name'],
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        product['name'],
+                        style: Theme.of(context).textTheme.headlineLarge,
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 8),
-                  Text('Kategorie: ${product['category']}'),
-                  Text('Preis: ${product['price']} €'),
+                  const SizedBox(height: 50),
+                  Text(
+                    '${product['price']} €',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    '${product['description']}',
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
                 ],
               ),
             ),
-          ),
-        );
-      }).toList(),
+          );
+        }).toList(),
+      ),
     );
   }
 }

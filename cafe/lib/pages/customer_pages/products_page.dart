@@ -1,7 +1,10 @@
 import 'package:cafe/backend/services/products_service.dart';
+import 'package:cafe/pages/customer_pages/cart/cart_item_list.dart';
 import 'package:cafe/pages/customer_pages/product_visualization.dart';
+import 'package:cafe/utils/constants/colors.dart';
 import 'package:cafe/utils/helper/products_page_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProductsPage extends StatefulWidget {
   final ProductsPageHelper productsPageHelper = ProductsPageHelper();
@@ -14,11 +17,11 @@ class ProductsPage extends StatefulWidget {
 class _ProductsPageState extends State<ProductsPage> {
   ProductsService productsService = ProductsService();
   ProductsPageHelper productsPageHelper = ProductsPageHelper();
-  // List<Map<String, dynamic>> products = [];
   late List<Map<String, dynamic>> hotDrinks;
   late List<Map<String, dynamic>> coldDrinks;
   late List<Map<String, dynamic>> cakes;
-  // List<String> categories = [];
+  late int totalProducts;
+  late double totalPrice;
 
   @override
   void initState() {
@@ -27,6 +30,16 @@ class _ProductsPageState extends State<ProductsPage> {
     coldDrinks = productsPageHelper.getCertainProductsPrefs("Cold Drinks");
     hotDrinks = productsPageHelper.getCertainProductsPrefs("Hot Drinks");
     _loadProducts();
+    _loadNumberOfTotalProducts();
+    _loadTotalPrice();
+  }
+
+  void _loadNumberOfTotalProducts() {
+    totalProducts = productsPageHelper.getTotalProductsInGrocery();
+  }
+
+  void _loadTotalPrice() {
+    totalPrice = productsPageHelper.getTotalPrice();
   }
 
   Future<void> _loadProducts() async {
@@ -69,6 +82,7 @@ class _ProductsPageState extends State<ProductsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFF2f4538),
       body: SafeArea(
         child: Column(
           children: [
@@ -78,9 +92,12 @@ class _ProductsPageState extends State<ProductsPage> {
                 child: Column(
                   children: [
                     TabBar(
+                      indicatorColor: CColors.primary,
+                      labelColor: CColors.primary,
+                      unselectedLabelColor: Colors.white,
                       tabs: [
-                        Tab(text: 'Cake'),
-                        Tab(text: 'Hot Drinks'),
+                        Tab(icon: Icon(Icons.cake), text: 'Cakes'),
+                        Tab(icon: Icon(Icons.local_cafe), text: 'Hot Drinks'),
                         Tab(text: 'Cold Drinks'),
                       ],
                     ),
@@ -97,15 +114,70 @@ class _ProductsPageState extends State<ProductsPage> {
                 ),
               ),
             ),
-            Row(
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/customerOrders');
-                  },
-                  child: Text('zum Warenkorb'),
-                ),
-              ],
+            Container(
+              margin: EdgeInsets.only(right: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Column(
+                    children: [
+                      // Shopping Icon with number of total products and total price
+                      Stack(
+                        children: [
+                          Icon(
+                            Icons.shopping_bag_outlined,
+                            size: 40,
+                            color: Colors.white,
+                          ),
+                          Positioned(
+                            right: 0,
+                            top: 0,
+                            child: Container(
+                              padding: EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                color: CColors.primary,
+                                shape: BoxShape.circle,
+                              ),
+                              constraints: BoxConstraints(
+                                minWidth: 20,
+                                minHeight: 20,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  '${productsPageHelper.getTotalProductsInGrocery()}',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 5),
+                      // amount of costs
+                      Text(
+                        'Total €${context.watch<CartProvider>().totalPrice.toStringAsFixed(2)}',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: 10),
+                  // Button to go to the order
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/customerOrders');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: Size.fromHeight(40),
+                    ),
+                    child: Text('zum Warenkorb'),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
