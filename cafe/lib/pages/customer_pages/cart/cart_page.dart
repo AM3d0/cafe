@@ -282,7 +282,11 @@ class _CartPageState extends State<CartPage> {
                   ElevatedButton(
                     onPressed: () {
                       if (cartItems.isNotEmpty) {
-                        ordersService.sendOrder(cartItems);
+                        int tableId = Provider.of<CartProvider>(
+                          context,
+                          listen: false,
+                        ).table;
+                        ordersService.sendOrder(cartItems, tableId);
                       }
                     },
                     style: ElevatedButton.styleFrom(

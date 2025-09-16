@@ -2,6 +2,7 @@ import 'package:cafe/backend/services/shared_preferences_service.dart';
 import 'package:cafe/pages/customer_pages/cart/cart_item_list.dart';
 import 'package:cafe/pages/customer_pages/cart/cart_page.dart';
 import 'package:cafe/pages/customer_pages/products_page.dart';
+import 'package:cafe/pages/customer_pages/table_page.dart';
 import 'package:cafe/pages/homepage.dart';
 import 'package:cafe/pages/kitchen_orders/orders_page.dart';
 import 'package:cafe/utils/theme/theme.dart';
@@ -39,7 +40,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/kitchen': (context) => OrdersPage(),
         '/customer': (context) => ProductsPage(),
-        '/customerOrders' : (context) => CartPage() 
+        '/customerOrders' : (context) => CartPage(),
+        '/tablePage' : (context) => TablePage()
       },
     );
   }

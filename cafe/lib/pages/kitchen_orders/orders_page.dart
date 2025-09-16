@@ -1,5 +1,6 @@
 import 'package:cafe/backend/services/orders_service.dart';
 import 'package:cafe/backend/services/products_service.dart';
+import 'package:cafe/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class OrdersPage extends StatefulWidget {
@@ -23,9 +24,9 @@ class _OrdersPageState extends State<OrdersPage> {
             return Center(child: CircularProgressIndicator());
           }
 
-          // if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          //   return Center(child: Text("Keine aktiven Bestellungen"));
-          // }
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text("Keine aktiven Bestellungen"));
+          }
 
           final orders = snapshot.data!;
 
@@ -33,23 +34,51 @@ class _OrdersPageState extends State<OrdersPage> {
             itemCount: orders.length,
             itemBuilder: (context, index) {
               final order = orders[index];
-              return Card(
-                margin: EdgeInsets.all(8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Bestellung ${order['id']}',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    ...order['items'].map(
-                      (item) => Column(
-                        children: [
-                          Text('${item['productName']} x ${item['quantity']}'),
-                        ],
+              return Dismissible(
+                background: Container(
+                  color: Colors.red,
+                  child: Icon(Icons.delete, color: Colors.white),
+                ),
+                key: ValueKey(order),
+                onDismissed: (direction) {
+                  ordersService.updateStatusOfOrder(order['id']);
+                },
+                child: Card(
+                  color: CColors.primary,
+                  margin: EdgeInsets.all(8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Bestellung',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              'Tisch Nr. ${order['id']}',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                      ...order['items'].map(
+                        (item) => Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Text(
+                                '${item['productName']} x ${item['quantity']}',
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },

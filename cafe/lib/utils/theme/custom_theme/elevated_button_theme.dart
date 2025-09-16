@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class CElevatedButtonTheme {
   static ElevatedButtonThemeData elevatedButtonTheme = ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      fixedSize: Size(200, 200),
+      fixedSize: Size(100, 100),
       elevation: 3,
       foregroundColor: Colors.white,
       backgroundColor: CColors.primary,

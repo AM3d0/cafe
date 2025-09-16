@@ -24,7 +24,7 @@ class Homepage extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/customer');
+                    Navigator.pushNamed(context, '/tablePage');
                   },
                   child: Text('Kunden'),
                 ),

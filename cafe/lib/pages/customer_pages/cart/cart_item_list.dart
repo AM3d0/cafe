@@ -5,11 +5,17 @@ class CartProvider with ChangeNotifier {
   final List<CartItem> _items = [];
   int _itemCount = 0;
   double _totalPrice = 0.00;
+  int _table = 0;
 
   List<CartItem> get items => _items;
   double get totalPrice => _totalPrice;
   int get itemCount => _itemCount;
+  int get table => _table;
 
+  void setTable(int tableId)
+  {
+    _table = tableId;
+  }
   void addItem(CartItem item, double price) {
     final index = _items.indexWhere((i) => i.name == item.name);
     if (index >= 0) {

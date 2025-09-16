@@ -22,8 +22,6 @@ class _ProductDetailState extends State<ProductDetail> {
   ProductsPageHelper productsPageHelper = ProductsPageHelper();
   final TextEditingController _controller = TextEditingController();
   int currentAmount = 0;
-  // late int totalProducts;
-  // late double totalPrice;
   late CartItem item;
 
   @override
