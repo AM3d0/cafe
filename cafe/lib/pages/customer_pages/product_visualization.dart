@@ -27,8 +27,8 @@ class _ProductsState extends State<Products> {
             context,
             MaterialPageRoute(
               builder: (_) => ProductDetail(
-                productsName: product['name'],
-                productsPrice: product['price'].toString(),
+                productsName: product['name'] ?? '',
+                productsPrice: product['price'] ?? 0.0,
               ),
             ),
           );

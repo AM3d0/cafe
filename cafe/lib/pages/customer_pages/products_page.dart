@@ -20,8 +20,6 @@ class _ProductsPageState extends State<ProductsPage> {
   late List<Map<String, dynamic>> hotDrinks;
   late List<Map<String, dynamic>> coldDrinks;
   late List<Map<String, dynamic>> cakes;
-  late int totalProducts;
-  late double totalPrice;
 
   @override
   void initState() {
@@ -30,20 +28,10 @@ class _ProductsPageState extends State<ProductsPage> {
     coldDrinks = productsPageHelper.getCertainProductsPrefs("Cold Drinks");
     hotDrinks = productsPageHelper.getCertainProductsPrefs("Hot Drinks");
     _loadProducts();
-    _loadNumberOfTotalProducts();
-    _loadTotalPrice();
-  }
-
-  void _loadNumberOfTotalProducts() {
-    totalProducts = productsPageHelper.getTotalProductsInGrocery();
-  }
-
-  void _loadTotalPrice() {
-    totalPrice = productsPageHelper.getTotalPrice();
   }
 
   Future<void> _loadProducts() async {
-    final loadedProducts = await productsService.getAllProducts();
+    // final loadedProducts = await productsService.getAllProducts();
     final loadedHotDrinks = await productsService.getAllProductsOfCategory(
       'Hot Drinks',
     );
@@ -51,10 +39,6 @@ class _ProductsPageState extends State<ProductsPage> {
     final loadedColdDrinks = await productsService.getAllProductsOfCategory(
       'Cold Drinks',
     );
-    final uniqueCategories = loadedProducts
-        .map((p) => p["category"].toString())
-        .toSet()
-        .toList();
 
     if (cakes != loadedCakes) {
       productsPageHelper.setCertainProductsPrefs('Cake', loadedCakes);
@@ -144,7 +128,7 @@ class _ProductsPageState extends State<ProductsPage> {
                               ),
                               child: Center(
                                 child: Text(
-                                  '${productsPageHelper.getTotalProductsInGrocery()}',
+                                  '${context.watch<CartProvider>().itemCount}',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 12,

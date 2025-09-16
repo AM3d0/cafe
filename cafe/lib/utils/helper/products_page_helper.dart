@@ -21,20 +21,10 @@ class ProductsPageHelper {
     await prefs.setString(category, jsonString);
   }
 
-  int getTotalProductsInGrocery() {
-    final totalProducts = (prefs.get('Total Products') as int?) ?? 0;
-    return totalProducts;
-  }
-
   Future<void> setTotalProducts(int amount) async {
     int totalProducts = (prefs.get('Total Products') as int?) ?? 0;
     totalProducts += amount;
     await prefs.setInt('Total Products', totalProducts);
-  }
-
-  double getTotalPrice(){
-    final totalPrice = (prefs.getDouble('Total Price')) ?? 0.00;
-    return totalPrice;
   }
 
   Future<void> setTotalPrice(double amount) async {

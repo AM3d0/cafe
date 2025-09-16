@@ -22,23 +22,13 @@ class _ProductDetailState extends State<ProductDetail> {
   ProductsPageHelper productsPageHelper = ProductsPageHelper();
   final TextEditingController _controller = TextEditingController();
   int currentAmount = 0;
-  late int totalProducts;
-  late double totalPrice;
+  // late int totalProducts;
+  // late double totalPrice;
   late CartItem item;
 
   @override
   void initState() {
     super.initState();
-    _loadNumberOfTotalProducts();
-    _loadTotalPrice();
-  }
-
-  void _loadNumberOfTotalProducts() {
-    totalProducts = productsPageHelper.getTotalProductsInGrocery();
-  }
-
-  void _loadTotalPrice() {
-    totalPrice = productsPageHelper.getTotalPrice();
   }
 
   @override
@@ -90,7 +80,11 @@ class _ProductDetailState extends State<ProductDetail> {
                           onTap: () {
                             Navigator.pop(context);
                           },
-                          child: Icon(Icons.arrow_back, size: 30, color: Colors.white),
+                          child: Icon(
+                            Icons.arrow_back,
+                            size: 30,
+                            color: Colors.white,
+                          ),
                         ),
                         // Extra information textbox
                         SizedBox(
@@ -108,7 +102,6 @@ class _ProductDetailState extends State<ProductDetail> {
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.grey),
                               ),
-                              
                             ),
                           ),
                         ),
@@ -162,7 +155,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                     ),
                                     child: Center(
                                       child: Text(
-                                        '$totalProducts',
+                                        '${context.watch<CartProvider>().itemCount}',
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 12,
@@ -177,7 +170,9 @@ class _ProductDetailState extends State<ProductDetail> {
                             ),
                             SizedBox(height: 5),
                             // amount of costs
-                            Text('Total €${totalPrice.toStringAsFixed(2)}'),
+                            Text(
+                              'Total €${context.watch<CartProvider>().totalPrice.toStringAsFixed(2)}',
+                            ),
                           ],
                         ),
 
@@ -191,7 +186,6 @@ class _ProductDetailState extends State<ProductDetail> {
                           ),
                           onPressed: () async {
                             if (currentAmount != 0) {
-                              Navigator.pop(context);
                               await productsPageHelper.setTotalProducts(
                                 currentAmount,
                               );
@@ -201,14 +195,17 @@ class _ProductDetailState extends State<ProductDetail> {
                               await productsPageHelper.setTotalPrice(price);
                               item = CartItem(
                                 name: widget.productsName,
-                                priceSum: price.toString(),
+                                singlePrice: widget.productsPrice,
+                                priceSum: price.toStringAsFixed(2),
                                 quantity: currentAmount.toString(),
                                 note: _controller.text,
+                                extras: [],
                               );
                               Provider.of<CartProvider>(
                                 context,
                                 listen: false,
                               ).addItem(item, price);
+                              Navigator.pop(context);
                             }
                           },
                           child: Text('add'),
