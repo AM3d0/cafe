@@ -8,10 +8,12 @@ import 'package:provider/provider.dart';
 class ProductDetail extends StatefulWidget {
   final String productsName;
   final String productsPrice;
+  final String productsDescription;
   const ProductDetail({
     super.key,
     required this.productsName,
     required this.productsPrice,
+    required this.productsDescription,
   });
 
   @override
@@ -46,26 +48,47 @@ class _ProductDetailState extends State<ProductDetail> {
               width: MediaQuery.of(context).size.width * 0.8,
               height: MediaQuery.of(context).size.height * 0.8,
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(40.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          widget.productsName,
-                          style: Theme.of(context).textTheme.headlineLarge,
+                        // will be replaced with url from firebase storage
+                        Container(
+                          width: 250,
+                          height: 250,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white, width: 4),
+                          ),
+                          child: ClipOval(
+                            child: Image.asset(
+                              "lib/assets/pictures/chocomint.png",
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          widget.productsPrice,
-                          style: Theme.of(context).textTheme.bodyMedium,
+                        SizedBox(width: 200),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              widget.productsName,
+                              style: Theme.of(context).textTheme.headlineLarge,
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              widget.productsDescription,
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              '€ ${widget.productsPrice}',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -103,31 +126,43 @@ class _ProductDetailState extends State<ProductDetail> {
                             ),
                           ),
                         ),
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              // minus icon
+                              GestureDetector(
+                                onTap: () {
+                                  if (currentAmount != 0) {
+                                    setState(() {
+                                      currentAmount -= 1;
+                                    });
+                                  }
+                                },
+                                child: Icon(Icons.remove, color: Colors.white),
+                              ),
+                              SizedBox(width: 20),
+                              // quantity
+                              Text(
+                                '$currentAmount',
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                              SizedBox(width: 20),
+                              // plus icon
+                              GestureDetector(
+                                onTap: () {
+                                  if (currentAmount != 10) {
+                                    setState(() {
+                                      currentAmount += 1;
+                                    });
+                                  }
+                                },
+                                child: Icon(Icons.add, color: Colors.white),
+                              ),
+                            ],
+                          ),
+                        ),
 
-                        // minus icon
-                        GestureDetector(
-                          onTap: () {
-                            if (currentAmount != 0) {
-                              setState(() {
-                                currentAmount -= 1;
-                              });
-                            }
-                          },
-                          child: Icon(Icons.remove, color: Colors.white),
-                        ),
-                        // quantity
-                        Text('$currentAmount'),
-                        // plus icon
-                        GestureDetector(
-                          onTap: () {
-                            if (currentAmount != 10) {
-                              setState(() {
-                                currentAmount += 1;
-                              });
-                            }
-                          },
-                          child: Icon(Icons.add, color: Colors.white),
-                        ),
                         // Grocery Icon with Products Count
                         Column(
                           children: [
@@ -180,7 +215,7 @@ class _ProductDetailState extends State<ProductDetail> {
                             fixedSize: Size.fromHeight(20),
                             backgroundColor: currentAmount == 0
                                 ? Colors.grey
-                                : Colors.blue,
+                                : const Color.fromARGB(255, 5, 113, 9),
                           ),
                           onPressed: () async {
                             if (currentAmount != 0) {
@@ -206,7 +241,7 @@ class _ProductDetailState extends State<ProductDetail> {
                               Navigator.pop(context);
                             }
                           },
-                          child: Text('add'),
+                          child: Text('Hinzufügen'),
                         ),
                       ],
                     ),

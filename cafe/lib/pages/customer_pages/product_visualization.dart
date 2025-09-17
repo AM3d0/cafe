@@ -29,6 +29,7 @@ class _ProductsState extends State<Products> {
               builder: (_) => ProductDetail(
                 productsName: product['name'] ?? '',
                 productsPrice: product['price'] ?? 0.0,
+                productsDescription: product['description'] ?? '',
               ),
             ),
           );
@@ -37,35 +38,54 @@ class _ProductsState extends State<Products> {
           return Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadiusGeometry.circular(40),
-              side: BorderSide(color: Colors.white)
+              side: BorderSide(color: Colors.white),
             ),
-            
+
             color: CColors.primary,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        product['name'],
-                        style: Theme.of(context).textTheme.headlineLarge,
+                  // will be replaced with url from firebase storage
+                  Container(
+                    width: 250,
+                    height: 250,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.white, width: 4),
+                    ),
+                    child: ClipOval(
+                      child: Image.asset(
+                        "lib/assets/pictures/chocomint.png",
+                        fit: BoxFit.cover,
                       ),
-                    ],
+                    ),
                   ),
                   const SizedBox(height: 50),
-                  Text(
-                    '${product['price']} €',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    '${product['description']}',
-                    style: Theme.of(context).textTheme.labelLarge,
+                  Container(
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          product['name'],
+                          style: Theme.of(context).textTheme.headlineLarge,
+                        ),
+                        Text(
+                          '${product['description']}',
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          '${product['price']} €',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
+              
             ),
           );
         }).toList(),

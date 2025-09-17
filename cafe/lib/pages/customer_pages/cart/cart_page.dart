@@ -1,4 +1,5 @@
 import 'package:cafe/backend/services/orders_service.dart';
+import 'package:cafe/components/alert_dialog.dart';
 import 'package:cafe/pages/customer_pages/cart/cart_item_list.dart';
 import 'package:cafe/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
@@ -31,25 +32,27 @@ class _CartPageState extends State<CartPage> {
                 color: CColors.primary,
                 elevation: 3,
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(30.0),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Center(
-                        child: Text(
-                          'Keine Bestellungen',
-                          style: TextStyle(color: Colors.white, fontSize: 50),
-                        ),
+                      Text(
+                        'Keine Bestellungen',
+                        style: TextStyle(color: Colors.white, fontSize: 50),
                       ),
-                      SizedBox(height: 100),
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
-                          size: 30,
-                        ),
+                      Icon(Icons.remove_shopping_cart_outlined, size: 100, color: Colors.white),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          GestureDetector(
+                            onTap: () => Navigator.pop(context),
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: Colors.white,
+                              size: 50,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -116,6 +119,12 @@ class _CartPageState extends State<CartPage> {
                               DataColumn(
                                 label: Text(
                                   'Menge',
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  'Info',
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 ),
                               ),
@@ -203,6 +212,29 @@ class _CartPageState extends State<CartPage> {
                                         ),
                                       ),
                                       DataCell(
+                                        item.note!.isNotEmpty ?
+                                        GestureDetector(
+                                          onTap: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) =>
+                                                  InfoAboutDialog(
+                                                    extras: [
+                                                      'Extra 1',
+                                                      'Extra 2',
+                                                      'Extra 3',
+                                                      'Extra 4',
+                                                    ], note: item.note ?? ''
+                                                  ),
+                                            );
+                                          },
+                                          child: Icon(
+                                            Icons.info,
+                                            color: Colors.white,
+                                          ),
+                                        ) : Text(''),
+                                      ),
+                                      DataCell(
                                         Text('€ ${item.priceSum.toString()}'),
                                       ),
                                       DataCell(
@@ -230,6 +262,7 @@ class _CartPageState extends State<CartPage> {
                                   DataRow(
                                     cells: [
                                       DataCell(Text('Gesamtbetrag')),
+                                      DataCell(Text('')),
                                       DataCell(Text('')),
                                       DataCell(Text('')),
                                       DataCell(
@@ -277,7 +310,10 @@ class _CartPageState extends State<CartPage> {
                       style: ElevatedButton.styleFrom(
                         fixedSize: Size.fromHeight(60),
                       ),
-                      child: Text('Bestellung löschen', style: TextStyle(color: Colors.red)),
+                      child: Text(
+                        'Bestellung löschen',
+                        style: TextStyle(color: Colors.red),
+                      ),
                     ),
                   if (edit)
                     ElevatedButton(
@@ -303,6 +339,7 @@ class _CartPageState extends State<CartPage> {
                           listen: false,
                         ).table;
                         ordersService.sendOrder(cartItems, tableId);
+                        Navigator.pushNamed(context, '/tablePage');
                       }
                     },
                     style: ElevatedButton.styleFrom(

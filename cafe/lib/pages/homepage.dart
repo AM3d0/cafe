@@ -1,3 +1,4 @@
+import 'package:cafe/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class Homepage extends StatelessWidget {
@@ -7,37 +8,43 @@ class Homepage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+        child: Card(
+          color: CColors.secondary,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
               children: [
-                Text(
-                  'Wähle die passende Seite aus.',
-                  style: TextStyle(fontSize: 45),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Wähle die passende Seite aus.',
+                      style: TextStyle(fontSize: 45),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 100),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/tablePage');
+                      },
+                      child: Text('Kunden'),
+                    ),
+                    SizedBox(width: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/kitchen');
+                      },
+                      child: Text('Küche'),
+                    ),
+                  ],
                 ),
               ],
             ),
-            SizedBox(height: 100),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/tablePage');
-                  },
-                  child: Text('Kunden'),
-                ),
-                SizedBox(width: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/kitchen');
-                  },
-                  child: Text('Küche'),
-                ),
-              ],
-            ),
-          ],
+          ),
         ),
       ),
     );

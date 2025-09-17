@@ -8,6 +8,7 @@ class TablePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<CartProvider>(context, listen: false).clear();
     return Scaffold(
       body: SafeArea(
         child: Center(

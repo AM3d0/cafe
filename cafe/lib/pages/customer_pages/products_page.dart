@@ -149,14 +149,14 @@ class _ProductsPageState extends State<ProductsPage> {
                       ),
                     ],
                   ),
-                  SizedBox(width: 10),
+                  SizedBox(width: 20),
                   // Button to go to the order
                   ElevatedButton(
                     onPressed: () {
                       Navigator.pushNamed(context, '/customerOrders');
                     },
                     style: ElevatedButton.styleFrom(
-                      fixedSize: Size.fromHeight(40),
+                      fixedSize: Size.fromHeight(60),
                     ),
                     child: Text('zum Warenkorb'),
                   ),

@@ -17,7 +17,7 @@ class CartProvider with ChangeNotifier {
     _table = tableId;
   }
   void addItem(CartItem item, double price) {
-    final index = _items.indexWhere((i) => i.name == item.name);
+    final index = _items.indexWhere((i) => i.name == item.name && i.note == item.note);
     if (index >= 0) {
       final existingItem = _items[index];
       final combinedPrice =
