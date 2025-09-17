@@ -77,6 +77,8 @@ class CartProvider with ChangeNotifier {
 
   void clear() {
     _items.clear();
+    _totalPrice = 0.00;
+    _itemCount = 0;
     notifyListeners();
   }
 }

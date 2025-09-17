@@ -270,6 +270,22 @@ class _CartPageState extends State<CartPage> {
                           Provider.of<CartProvider>(
                             context,
                             listen: false,
+                          ).clear();
+                          edit = !edit;
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: Size.fromHeight(60),
+                      ),
+                      child: Text('Bestellung löschen', style: TextStyle(color: Colors.red)),
+                    ),
+                  if (edit)
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          Provider.of<CartProvider>(
+                            context,
+                            listen: false,
                           ).removeZeroQuantityItems();
                           edit = !edit;
                         });
