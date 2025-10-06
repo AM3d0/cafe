@@ -19,7 +19,7 @@ class _ProductsState extends State<Products> {
         scrollDirection: Axis.horizontal,
         backgroundColor: Color(0xFF2f4538),
         flexWeights: [1, 1],
-        shrinkExtent: 300,
+        shrinkExtent: 400,
         enableSplash: true,
         onTap: (index) {
           final product = widget.products[index];
@@ -30,6 +30,7 @@ class _ProductsState extends State<Products> {
                 productsName: product['name'] ?? '',
                 productsPrice: product['price'] ?? 0.0,
                 productsDescription: product['description'] ?? '',
+                productsImage: product['image'] ?? 'chocomint.png'
               ),
             ),
           );
@@ -56,7 +57,7 @@ class _ProductsState extends State<Products> {
                     ),
                     child: ClipOval(
                       child: Image.asset(
-                        "lib/assets/pictures/chocomint.png",
+                        "lib/assets/pictures/${product['image']}",
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -72,20 +73,19 @@ class _ProductsState extends State<Products> {
                           style: Theme.of(context).textTheme.headlineLarge,
                         ),
                         Text(
-                          '${product['description']}',
-                          style: Theme.of(context).textTheme.headlineSmall,
+                          '${product['price']} €',
+                          style: TextStyle(fontSize: 20),
                         ),
                         SizedBox(height: 10),
                         Text(
-                          '${product['price']} €',
-                          style: TextStyle(fontSize: 20),
+                          '${product['description']}',
+                          style: Theme.of(context).textTheme.headlineSmall,
                         ),
                       ],
                     ),
                   ),
                 ],
               ),
-              
             ),
           );
         }).toList(),

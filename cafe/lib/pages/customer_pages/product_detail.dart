@@ -9,11 +9,13 @@ class ProductDetail extends StatefulWidget {
   final String productsName;
   final String productsPrice;
   final String productsDescription;
+  final String productsImage;
   const ProductDetail({
     super.key,
     required this.productsName,
     required this.productsPrice,
     required this.productsDescription,
+    required this.productsImage
   });
 
   @override
@@ -52,6 +54,7 @@ class _ProductDetailState extends State<ProductDetail> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    SizedBox(height: 10),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -65,30 +68,40 @@ class _ProductDetailState extends State<ProductDetail> {
                           ),
                           child: ClipOval(
                             child: Image.asset(
-                              "lib/assets/pictures/chocomint.png",
+                              "lib/assets/pictures/${widget.productsImage}",
                               fit: BoxFit.cover,
                             ),
                           ),
                         ),
-                        SizedBox(width: 200),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              widget.productsName,
-                              style: Theme.of(context).textTheme.headlineLarge,
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              widget.productsDescription,
-                              style: Theme.of(context).textTheme.headlineSmall,
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              '€ ${widget.productsPrice}',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ],
+                        SizedBox(width: 100),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.productsName,
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.headlineLarge,
+                              ),
+                              SizedBox(height: 5),
+                              Text(
+                                '€ ${widget.productsPrice}',
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                              SizedBox(height: 30),
+                              Align(
+                                alignment: AlignmentGeometry.center,
+                                child: Text(
+                                  widget.productsDescription,
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.headlineSmall,
+                                  softWrap: true,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

@@ -82,7 +82,7 @@ class _ProductsPageState extends State<ProductsPage> {
                       tabs: [
                         Tab(icon: Icon(Icons.cake), text: 'Cakes'),
                         Tab(icon: Icon(Icons.local_cafe), text: 'Hot Drinks'),
-                        Tab(text: 'Cold Drinks'),
+                        Tab(icon: Icon(Icons.local_drink),text: 'Cold Drinks'),
                       ],
                     ),
                     Expanded(

@@ -24,10 +24,6 @@ void main() async {
   );
 }
 
-Future initializePrefs() async{
-  
-}
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override

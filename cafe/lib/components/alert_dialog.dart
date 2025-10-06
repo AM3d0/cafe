@@ -21,21 +21,22 @@ class _InfoAboutDialogState extends State<InfoAboutDialog> {
         height: 500,
         child: Column(
           children: [
-            Text('Extras', style: Theme.of(context).textTheme.bodyLarge),
-            ...widget.extras.map(
-              (extra) => Row(
-                children: [
-                  Text('• ', style: Theme.of(context).textTheme.bodyMedium),
-                  Text(extra, style: Theme.of(context).textTheme.bodyMedium),
-                ],
-              ),
-            ),
+            // Text('Extras', style: Theme.of(context).textTheme.bodyLarge),
+            // ...widget.extras.map(
+            //   (extra) => Row(
+            //     children: [
+            //       Text('• ', style: Theme.of(context).textTheme.bodyMedium),
+            //       Text(extra, style: Theme.of(context).textTheme.bodyMedium),
+            //     ],
+            //   ),
+            // ),
             Column(
               children: [
                 Text('Notes'),
                 SizedBox(height: 10),
                 Row(
                   children: [
+                    Text('• ', style: Theme.of(context).textTheme.bodyMedium),
                     Text(widget.note),
                   ],
                 ),
